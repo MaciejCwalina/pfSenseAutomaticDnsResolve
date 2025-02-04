@@ -20,7 +20,9 @@ jobs:
     - name: Build
       run: |
         mkdir ~/output
-        go build /cmd -v -o ~/output
+        cd cmd
+        go build .
+        mv cmd ~/output
 
     - name: Archive build artifacts
       uses: actions/upload-artifact@v4
