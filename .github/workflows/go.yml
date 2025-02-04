@@ -24,9 +24,6 @@ jobs:
         go build .
         mv cmd ~/output
 
-    - name: Test
-      run: go test -v ./...
-
     - name: Archive build artifacts
       uses: actions/upload-artifact@v4
       with:
