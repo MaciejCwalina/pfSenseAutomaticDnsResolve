@@ -1,0 +1,43 @@
+name: Go
+
+on:
+  push:
+    branches: [ "prod" ]
+  pull_request:
+    branches: [ "prod" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.22.5'
+
+    - name: Build
+      run: |
+        mkdir ~/output
+        go build -v -o ~/output
+
+    - name: Test
+      run: go test -v ./...
+
+    - name: Archive build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifact
+        path: ~/output/*
+
+    - name: Set Tag
+      id: tag
+      run: echo "TAG=pfSenseAutomaticDnsResolve-$(date +'%Y-%m-%d-%H')" >> $GITHUB_ENV
+
+    - uses: actions/checkout@v3
+    - uses: ncipollo/release-action@v1
+      with:
+        token: ${{ secrets.PAT }}
+        tag: ${{ env.TAG }}
+        artifacts: "~/output/*"
