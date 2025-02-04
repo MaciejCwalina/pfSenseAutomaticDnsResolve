@@ -20,7 +20,8 @@ jobs:
     - name: Build
       run: |
         mkdir ~/output
-        go build /cmd -v -o ~/output
+        go build ./cmd/
+        mv cmd ~/output
 
     - name: Test
       run: go test -v ./...
