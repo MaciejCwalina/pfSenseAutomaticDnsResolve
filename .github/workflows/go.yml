@@ -22,7 +22,8 @@ jobs:
         mkdir ~/output
         cd cmd
         go build .
-        mv cmd ~/output
+        cp cmd pfSenseAutomaticDnsResolve
+        mv pfSenseAutomaticDnsResolve ~/output
 
     - name: Archive build artifacts
       uses: actions/upload-artifact@v4
